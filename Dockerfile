@@ -4,7 +4,7 @@ FROM nginx:latest
 ADD code/ /usr/share/nginx/html/
 
 # Download the latest website
-WORKDIR "/usr/share/nginx/html/
+WORKDIR /usr/share/nginx/html/
 
 #RUN git clone https://github.com/TeamCorgo/Website.git .
 

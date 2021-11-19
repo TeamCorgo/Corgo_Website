@@ -14,4 +14,4 @@ RUN rm -r /usr/share/nginx/html/*
 WORKDIR "/usr/share/nginx/html/"
 RUN git clone https://github.com/TeamCorgo/Website.git .
 
-HEALTHCHECK --interval=5m --timeout=3s CMD curl --fail http://localhost:80 || exit 1
+HEALTHCHECK --interval=60s --timeout=10s CMD curl --fail http://localhost:80 || exit 1

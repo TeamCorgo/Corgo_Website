@@ -9,7 +9,9 @@
     </head>
     <body>
         <div style="margin: auto; width: 50%;">
-            <img src="static/images/svg/Light_Logo.svg" alt="Corgo LC" style="margin: auto; width: 50%;">
+            <a href="static/images/odin.jpg">
+                <img src="static/images/svg/Light_Logo.svg" class="enlarger" alt="Corgo LC" style="margin: auto; width: 50%;">
+            </a>
             <h1>
                 <a href="https://github.com/TeamCorgo" class="logo_links"><i class="fab fa-github"></i></a>
                 <a href="https://www.reddit.com/user/TeamCorgo" class="logo_links"><i class="fab fa-reddit"></i></a>
@@ -32,4 +34,6 @@
         color: inherit;
         text-decoration: inherit;
     }
+    .enlarger { transition: all .2s ease-in-out; }
+    .enlarger:hover { transform: scale(1.1); }
 </style>

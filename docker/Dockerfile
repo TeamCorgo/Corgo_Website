@@ -4,6 +4,9 @@ FROM nginx:latest
 # Copy the built files from the previous stage into the nginx HTML folder
 COPY content /usr/share/nginx/html/
 
+# Copy the custom nginx.conf file to the appropriate location within the container
+COPY config /etc/nginx/nginx.conf
+
 # Start the nginx web server
 CMD ["nginx", "-g", "daemon off;"]
 

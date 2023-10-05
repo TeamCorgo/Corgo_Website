@@ -1,11 +1,11 @@
 # Use an official Node.js runtime as a parent image
 FROM node:latest AS builder
 
-# Copy the build files into the project
+# Copy the built files into the project
 COPY . /app
 
 # Set the working directory in the container
-WORKDIR /app/ZeroZone
+WORKDIR /app
 
 # Install project dependencies using npm
 RUN npm install
@@ -17,10 +17,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the built files from the previous stage into the nginx HTML folder
-COPY --from=builder /app/ZeroZone/dist /usr/share/nginx/html/ZeroZone
-
-# Copy the built files from the previous stage into the nginx HTML folder
-COPY ./content /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Start the nginx web server
 CMD ["nginx", "-g", "daemon off;"]

@@ -96,3 +96,8 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+      # Disable Docker build cache by using --no-cache flag
+      - name: Disable Docker build cache
+        if: github.event_name != 'pull_request'
+        run: docker build --no-cache -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA .

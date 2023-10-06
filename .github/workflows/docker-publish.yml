@@ -11,8 +11,7 @@ on:
   push:
     branches: [ "latest" ]
     # Publish semver tags as releases.
-    tags:
-      - 'v*.*.*'
+    tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "latest" ]
 
@@ -77,8 +76,9 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
+          no-cache: true
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags | map('lower') | join(',') }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -92,14 +92,8 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         env:
           # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-          TAGS: ${{ steps.meta.outputs.tags | map('lower') | join(',') }}
+          TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST} 
-
-      # Disable Docker build cache by using --no-cache flag
-      - name: Disable Docker build cache
-        if: github.event_name != 'pull_request'
-        run: docker build --no-cache -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$GITHUB_SHA .
-
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}

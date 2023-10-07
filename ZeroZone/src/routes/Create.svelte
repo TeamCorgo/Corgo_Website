@@ -72,6 +72,13 @@
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-96">
         <h1 class="text-2xl font-semibold mb-6">Create a ZeroZone account</h1>
+        {#if username}
+            <div class="avatar flex items-center justify-center">
+                <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={username}" alt="Avatar" />
+                </div>
+            </div>
+        {/if}
         <form on:submit={handleSubmit}>
             <div class="mb-4">
                 <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>

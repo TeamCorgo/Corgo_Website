@@ -19,7 +19,6 @@
         event.preventDefault();
         if (isLoading) return; // Prevent multiple requests while one is in progress
         isLoading = true; // Ok function is now loading, set the lock out
-
         const formData = new URLSearchParams();
         formData.append('username', username);
         formData.append('password', password);
@@ -53,8 +52,8 @@
                     // Set the browser local storage for the JWT
                     localStorage.setItem('JWT_Access', data.access_token);
                     addToast({ type: 'success', message: 'Logged in' });
+                    setPage('game');
                     isLoading = false;
-                    // redirect to new page TODO
                 }
             });
         })

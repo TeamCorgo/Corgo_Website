@@ -17,21 +17,20 @@
 
 
 
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-md w-196">
-        <table>
-            {#each arrayg as row}
-                <tr>
-                    {#each row as cell}
-                        <td bgcolor="{cell['color']}">
-                            {cell['name']}
-                        </td>
-                    {/each}
-                </tr>
-            {/each}
-        </table>
-    </div>
-</body>
+
+<div class="bg-white p-8 rounded-lg shadow-md w-196">
+    <table>
+        {#each arrayg as row}
+            <tr>
+                {#each row as cell}
+                    <td style="background-color: {cell['color']}">
+                        {cell['name']}
+                    </td>
+                {/each}
+            </tr>
+        {/each}
+    </table>
+</div>
 
 <style>
 table, td {

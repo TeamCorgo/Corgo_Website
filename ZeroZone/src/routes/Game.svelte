@@ -1,18 +1,20 @@
 <script>
     import { setPage, addToast, serverAddress } from '../store';
-    import PlayerMap from '../parts/PlayerMap.svelte';
-
+    import PlayerMap from '../parts/ViewMap.svelte';
+    import ViewPlayer from '../parts/ViewPlayer.svelte';
 
     // Done with Svelte code switching to basic JS
     let dataReceived = false;
     let isLoading = false;
     let formData = {};
-    let map = ''
+    let map = [];
+    let player = '';
 
 
     async function refreshPage() {
         if (isLoading) return; // Prevent multiple requests while one is in progress
         isLoading = true; // Ok function is now loading, set the lock out
+        dataReceived = false;
         fetch("http://localhost:81/game", {
             method: 'POST',
             headers: {
@@ -41,6 +43,7 @@
                 if (isLoading === true) {
                     //console.log(data);
                     // Set the browser local storage for the JWT
+                    player = data['player'];
                     map = data['map'];
                     console.log(map);
                     dataReceived = true;
@@ -58,31 +61,24 @@
     }
 
     refreshPage();
+    setInterval(refreshPage, 5000);
 </script>
 
-
 {#if dataReceived}
-    <!-- Render your content using the received JSON data -->
-    <PlayerMap map={map} />
-    <span>
-        User Actions:
-        <br>
-        <a href="/">Log out</a>
-        <br>
-        <form id="user_move_up" title="Hello world!">
-            <button type="submit">Move Up</button>
-        </form>
-        <form id="user_move_down">
-            <button type="submit">Move Down</button>
-        </form>
-        <form id="user_move_left">
-            <button type="submit">Move Left</button>
-        </form>
-        <form id="user_move_right">
-            <button type="submit">Move Right</button>
-        </form>
-    </span>
+    <body class="bg-gray-100 items-center justify-center">
+        <!-- Render your content using the received JSON data -->
+        <PlayerMap map={map} />
+
+        
+
+        <!-- Add player info -->
+        <ViewPlayer player={player} />
+
+
+    </body>
 {:else}
     <!-- Render a loading message or any other content while waiting for data -->
     <h1>Loading...</h1>
 {/if}
+
+

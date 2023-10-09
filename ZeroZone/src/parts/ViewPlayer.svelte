@@ -1,6 +1,31 @@
 <script>
     // Declare a prop with the same name as in the parent component
     export let player;
+
+
+
+
+
+
+
+    async function movement(event, direction) {
+        event.preventDefault();
+        fetch("http://localhost:81/move_" + direction, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("JWT_Access"),
+            },
+        })
+        .then(response => {
+            response.json().then(data => {
+                console.log('Yes');
+            });
+        })
+        .catch(error => {
+            console.log('No');
+        });
+    }
 </script>
 
 <div class="items-center justify-center">
@@ -19,21 +44,59 @@
 
 <div class="items-center justify-center">
     <div class="card shadow-xl items-center justify-center">
-        Movement
+        Player Movement
         <div class="flex justify-center w-full">
-            <kbd class="kbd kbd-lg">◤</kbd>
-            <kbd class="kbd kbd-lg">▲</kbd>
-            <kbd class="kbd kbd-lg">◥</kbd>
+            <form on:submit={(event) => movement(event, "northwest")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>◤</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => movement(event, "north")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>▲</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => movement(event, "northeast")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>◥</kbd>
+                </button>
+            </form>
         </div>
+
         <div class="flex justify-center w-full">
-            <kbd class="kbd kbd-lg">◀︎</kbd>
-            <kbd class="kbd kbd-lg">X</kbd>
-            <kbd class="kbd kbd-lg">▶︎</kbd>
+            <form on:submit={(event) => movement(event, "west")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>◀︎</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => (movement(event, "action"))}>
+                <button type="submit" class="kbd btn">
+                    <kbd>⊙</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => movement(event, "east")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>▶︎</kbd>
+                </button>
+            </form>
         </div>
+
         <div class="flex justify-center w-full">
-            <kbd class="kbd kbd-lg">◣</kbd>
-            <kbd class="kbd kbd-lg">▼</kbd>
-            <kbd class="kbd kbd-lg">◢</kbd>
+            <form on:submit={(event) => movement(event, "southwest")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>◣</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => (movement(event, "south"))}>
+                <button type="submit" class="kbd btn">
+                    <kbd>▼</kbd>
+                </button>
+            </form>
+            <form on:submit={(event) => movement(event, "southeast")}>
+                <button type="submit" class="kbd btn">
+                    <kbd>◢</kbd>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -47,17 +110,17 @@
             <br>
             <a href="/">Log out</a>
             <br>
-            <form id="user_move_up" title="Hello world!">
-                <button type="submit">Move Up</button>
+            <form on:submit={(event) => movement(event, "north")}>
+                <button type="submit">Move North</button>
             </form>
-            <form id="user_move_down">
-                <button type="submit">Move Down</button>
+            <form on:submit={(event) => movement(event, "south")}>
+                <button type="submit">Move South</button>
             </form>
-            <form id="user_move_left">
-                <button type="submit">Move Left</button>
+            <form on:submit={(event) => movement(event, "west")}>
+                <button type="submit">Move West</button>
             </form>
-            <form id="user_move_right">
-                <button type="submit">Move Right</button>
+            <form on:submit={(event) => movement(event, "east")}>
+                <button type="submit">Move East</button>
             </form>
         </span>
     </div>

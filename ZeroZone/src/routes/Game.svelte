@@ -1,5 +1,6 @@
 <script>
-    import { setPage, addToast, serverAddress } from '../store';
+    import { setPage, addToast, serverAddress, addInterval, deleteIntervals } from '../store';
+    import { onMount, onDestroy } from 'svelte';
     import PlayerMap from '../parts/ViewMap.svelte';
     import ViewPlayer from '../parts/ViewPlayer.svelte';
 
@@ -10,8 +11,7 @@
     let map = [];
     let player = '';
 
-
-    async function refreshPage() {
+    async function paintPage() {
         if (isLoading) return; // Prevent multiple requests while one is in progress
         isLoading = true; // Ok function is now loading, set the lock out
         dataReceived = false;
@@ -42,7 +42,6 @@
                 // No errors, time to party
                 if (isLoading === true) {
                     //console.log(data);
-                    // Set the browser local storage for the JWT
                     player = data['player'];
                     map = data['map'];
                     console.log(map);
@@ -60,8 +59,17 @@
         });
     }
 
-    refreshPage();
-    setInterval(refreshPage, 5000);
+    onMount(() => {
+        document.title = 'ZeroZone | Game';
+
+        paintPage();
+        //addInterval(setInterval(function() {paintPage()}, 15000));
+    });
+
+    onDestroy(() => {
+        deleteIntervals();
+    });
+
 </script>
 
 {#if dataReceived}
@@ -69,12 +77,10 @@
         <!-- Render your content using the received JSON data -->
         <PlayerMap map={map} />
 
-        
-
         <!-- Add player info -->
         <ViewPlayer player={player} />
-
-
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<span on:click={() => console.log('asd')} class="text-blue-500 hover:underline cursor-pointer">Log into an existing account</span>
     </body>
 {:else}
     <!-- Render a loading message or any other content while waiting for data -->

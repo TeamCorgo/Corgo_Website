@@ -33,8 +33,8 @@
 </div>
 
 <style>
-table, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
+    table, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
 </style>

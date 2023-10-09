@@ -1,11 +1,12 @@
 <!-- Login.svelte -->
 <script>
-    import { onMount } from 'svelte';
-    import { setPage, addToast, serverAddress } from '../store';
+    import { onMount, onDestroy } from 'svelte';
+    import { setPage, addToast, serverAddress, addInterval, deleteIntervals } from '../store';
 
     let isLoading = false;
     let username;
-    let password;    
+    let password;
+
     onMount(() => {
         document.title = 'ZeroZone | Login';
 
@@ -13,6 +14,10 @@
         if (localStorage.getItem('JWT_Access')) {
             localStorage.removeItem('JWT_Access');
         }
+    });
+
+    onDestroy(() => {
+        
     });
 
     async function handleSubmit(event) {

@@ -85,9 +85,7 @@
                 <input type="password" id="password" bind:value={password} required class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-400" placeholder="Enter password">
             </div>
             <div class="mb-4">
-                <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                    Log In
-                </button>
+                <button type="submit" class="w-full btn btn-primary">Log In</button>
             </div>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <span on:click={() => setPage('create')} class="text-blue-500 hover:underline cursor-pointer">Create an account</span>

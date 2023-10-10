@@ -1,17 +1,13 @@
 <script>
-    // Declare a prop with the same name as in the parent component
+	import { createEventDispatcher } from 'svelte';
+    import { setPage, addToast, serverAddress, addInterval, deleteIntervals } from '../store';
+	const dispatch = createEventDispatcher();
     export let player;
 
-
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
-
-
-
-
     async function movement(event, direction) {
-        event.preventDefault();
+        if (event){
+            event.preventDefault();
+        }
         fetch("http://localhost:81/move_" + direction, {
             method: 'POST',
             headers: {
@@ -21,18 +17,36 @@
         })
         .then(response => {
             response.json().then(data => {
-                console.log('Yes');
-                dispatch('refresh');
+                //console.log('Yes');
+                
+                dispatch('refreshParent');
             });
         })
         .catch(error => {
-            console.log('No');
+            //console.log('No');
         });
     }
+
+	function onKeyDown(event) {
+	    switch(event.keyCode) {
+	        case 38:
+	            movement(null, 'north');
+	            break;
+	        case 40:
+                movement(null, 'south');
+	            break;
+	        case 37:
+                movement(null, 'west');
+	            break;
+	        case 39:
+                movement(null, 'east');
+	            break;
+	    }
+	}
 </script>
 
-<div class="items-center justify-center">
-    <div class="card shadow-xl items-center justify-center">
+<div class="w-full items-center justify-center">
+    <div class="card items-center justify-center shadow-2xl">
         <div class="avatar items-center justify-center">
             <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={player.name}" alt="Avatar" />
@@ -45,8 +59,8 @@
 
 <br>
 
-<div class="items-center justify-center">
-    <div class="card shadow-xl items-center justify-center">
+<div class="w-full items-center justify-center">
+    <div class="card items-center justify-center shadow-2xl">
         Player Movement
         <div class="flex justify-center w-full">
             <form on:submit={(event) => movement(event, "northwest")}>
@@ -104,25 +118,10 @@
 
 <br>
 
-<div class="items-center justify-center">
-    <div class="card shadow-xl items-center justify-center">
-        <span>
-            Actions
-            <br>
-            <a href="/">Log out</a>
-            <br>
-            <form on:submit={(event) => movement(event, "north")}>
-                <button type="submit">Move North</button>
-            </form>
-            <form on:submit={(event) => movement(event, "south")}>
-                <button type="submit">Move South</button>
-            </form>
-            <form on:submit={(event) => movement(event, "west")}>
-                <button type="submit">Move West</button>
-            </form>
-            <form on:submit={(event) => movement(event, "east")}>
-                <button type="submit">Move East</button>
-            </form>
-        </span>
+<div class="w-full items-center justify-center">
+    <div class="card items-center justify-center shadow-2xl">
+        <button on:click={() => setPage('login')} class="btn btn-primary">Logout</button>
     </div>
 </div>
+
+<svelte:window on:keydown|preventDefault={onKeyDown} />

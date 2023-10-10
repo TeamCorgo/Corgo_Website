@@ -4,13 +4,19 @@
     let arrayg = [];
     let width = Math.sqrt(map.length);
 
-    // Reshape the flat array into a 2D array
-    for (let rowIndex = 0; rowIndex < width; rowIndex++) {
-        let row = [];
-        for (let colIndex = 0; colIndex < width; colIndex++) {
-            row.push(map[rowIndex * width + colIndex]);
+    // Create a reactive statement that watches for changes to the map prop
+    $: {
+        arrayg = [];
+        width = Math.sqrt(map.length);
+
+        // Reshape the flat array into a 2D array
+        for (let rowIndex = 0; rowIndex < width; rowIndex++) {
+            let row = [];
+            for (let colIndex = 0; colIndex < width; colIndex++) {
+                row.push(map[rowIndex * width + colIndex]);
+            }
+            arrayg.push(row);
         }
-        arrayg.push(row);
     }
 </script>
 
@@ -25,6 +31,8 @@
                 {#each row as cell}
                     <td style="background-color: {cell['color']}">
                         {cell['name']}
+                        <br>
+                        {cell['y_pos']}:{cell['x_pos']}
                     </td>
                 {/each}
             </tr>

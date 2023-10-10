@@ -6,64 +6,90 @@
 
     // Done with Svelte code switching to basic JS
     let dataReceived = false;
-    let isLoading = false;
-    let formData = {};
     let map = [];
     let player = '';
+    let response;
 
-    async function paintPage() {
-        if (isLoading) return; // Prevent multiple requests while one is in progress
-        isLoading = true; // Ok function is now loading, set the lock out
-        dataReceived = false;
-        fetch("http://localhost:81/game", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem("JWT_Access"),
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            response.json().then(data => {
-                // Check for manual warnings from FastAPI
-                if (data.warning) {
-                    console.log('Warning found')
-                    console.log(data.warning);
-                    addToast({ type: 'warning', message: data.warning });
-                    isLoading = false;
-                }
-                // Check for manual errors from FastAPI
-                if (data.error) {
-                    console.log('Error found')
-                    console.log(data.error);
-                    addToast({ type: 'error', message: data.error });
-                    isLoading = false;
-                }
-                // No errors, time to party
-                if (isLoading === true) {
-                    //console.log(data);
-                    player = data['player'];
-                    map = data['map'];
-                    console.log(map);
-                    dataReceived = true;
-                    isLoading = false;
-                }
+    let error = null; // Initialize error as null
+
+
+    async function updateData() {
+//        if (isLoading) return; // Prevent multiple requests while one is in progress
+//        isLoading = true; // Ok function is now loading, set the lock out
+//        dataReceived = false;
+//
+//        fetch("http://localhost:81/game", {
+//            method: 'POST',
+//            headers: {
+//                'Content-Type': 'application/json',
+//                'Authorization': 'Bearer ' + localStorage.getItem("JWT_Access"),
+//            },
+//        })
+//        .then(response => {
+//            response.json().then(data => {
+//                // Check for manual warnings from FastAPI
+//                if (data.warning) {
+//                    console.log('Warning found')
+//                    console.log(data.warning);
+//                    addToast({ type: 'warning', message: data.warning });
+//                    isLoading = false;
+//                }
+//                // Check for manual errors from FastAPI
+//                if (data.error) {
+//                    console.log('Error found')
+//                    console.log(data.error);
+//                    addToast({ type: 'error', message: data.error });
+//                    isLoading = false;
+//                }
+//                // No errors, time to party
+//                if (isLoading === true) {
+//                    //console.log(data);
+//                    player = data['player'];
+//                    map = data['map'];
+//                    console.log(map);
+//                    dataReceived = true;
+//                    isLoading = false;
+//                }
+//            });
+//        })
+//        .catch(error => {
+//            // Handle Server Errors
+//            console.error('Error:', error);
+//            addToast({ type: 'error', message: error.message });
+//            setPage('login');
+//            isLoading = false;
+//        });
+        //dataReceived = false;
+        try {
+            response = await fetch("http://localhost:81/game", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem("JWT_Access"),
+                },
             });
-        })
-        .catch(error => {
-            // Handle Server Errors
-            console.error('Error:', error);
-            addToast({ type: 'error', message: error.message });
+            if (!response.ok) {
+                addToast({ type: 'error', message: 'URL Fetch failed'});
+                setPage('login');
+            }
+            response = await response.json();
+            dataReceived = true;
+            player = response['player'];
+            map = response['map'];
+            console.log(response);
+        } catch (err) {
+            // Handle the error
+            addToast({ type: 'error', message: err.message });
             setPage('login');
-            isLoading = false;
-        });
+        }
+
     }
 
     onMount(() => {
         document.title = 'ZeroZone | Game';
 
-        paintPage();
-        //addInterval(setInterval(function() {paintPage()}, 15000));
+        updateData();
+        addInterval(setInterval(function() {updateData()}, 5000));
     });
 
     onDestroy(() => {
@@ -73,15 +99,19 @@
 </script>
 
 {#if dataReceived}
-    <body class="bg-gray-100 items-center justify-center">
-        <!-- Render your content using the received JSON data -->
-        <PlayerMap map={map} />
+    <div class="flex h-screen">
+        <!-- Sidebar (left menu) -->
+        <aside class="w-64">
+            <!-- Add player info -->
+            <ViewPlayer player={player} on:refreshParent={updateData}/>
+        </aside>
 
-        <!-- Add player info -->
-        <ViewPlayer player={player} on:refresh={paintPage}/>
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<span on:click={() => console.log('asd')} class="text-blue-500 hover:underline cursor-pointer">Log into an existing account</span>
-    </body>
+        <!-- Main Content -->
+        <main class="flex-1 p-4">
+            <!-- Add your page content here -->
+            <PlayerMap map={map} />
+        </main>
+    </div>
 {:else}
     <!-- Render a loading message or any other content while waiting for data -->
     <h1>Loading...</h1>

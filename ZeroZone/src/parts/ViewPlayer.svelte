@@ -3,7 +3,9 @@
     export let player;
 
 
+	import { createEventDispatcher } from 'svelte';
 
+	const dispatch = createEventDispatcher();
 
 
 
@@ -20,6 +22,7 @@
         .then(response => {
             response.json().then(data => {
                 console.log('Yes');
+                dispatch('refresh');
             });
         })
         .catch(error => {
@@ -69,11 +72,9 @@
                     <kbd>◀︎</kbd>
                 </button>
             </form>
-            <form on:submit={(event) => (movement(event, "action"))}>
-                <button type="submit" class="kbd btn">
+            <button type="submit" class="kbd btn">
                     <kbd>⊙</kbd>
-                </button>
-            </form>
+            </button>
             <form on:submit={(event) => movement(event, "east")}>
                 <button type="submit" class="kbd btn">
                     <kbd>▶︎</kbd>

@@ -78,7 +78,7 @@
         <PlayerMap map={map} />
 
         <!-- Add player info -->
-        <ViewPlayer player={player} />
+        <ViewPlayer player={player} on:refresh={paintPage}/>
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <span on:click={() => console.log('asd')} class="text-blue-500 hover:underline cursor-pointer">Log into an existing account</span>
     </body>

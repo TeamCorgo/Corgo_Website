@@ -7,7 +7,7 @@
     let username;
     let password;    
     onMount(() => {
-        document.title = 'ZeroZone | Create User';
+        document.title = 'Lens | Create User';
 
         // Remove the item if it exists
         if (localStorage.getItem('JWT_Access')) {

@@ -5,7 +5,7 @@ FROM node:latest AS builder
 COPY . /app
 
 # Set the working directory in the container
-WORKDIR /app/ZeroZone
+WORKDIR /app/Lens
 
 # Install project dependencies using npm
 RUN npm install
@@ -17,7 +17,7 @@ RUN npm run build
 FROM nginx:latest
 
 # Copy the built files from the previous stage into the nginx HTML folder
-COPY --from=builder /app/ZeroZone/dist /usr/share/nginx/html/ZeroZone
+COPY --from=builder /app/Lens/dist /usr/share/nginx/html/Lens
 
 # Copy the built files from the previous stage into the nginx HTML folder
 COPY ./content /usr/share/nginx/html

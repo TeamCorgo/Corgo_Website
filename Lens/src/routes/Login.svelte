@@ -8,7 +8,7 @@
     let password;
 
     onMount(() => {
-        document.title = 'ZeroZone | Login';
+        document.title = 'Lens | Login';
 
         // Remove the item if it exists
         if (localStorage.getItem('JWT_Access')) {

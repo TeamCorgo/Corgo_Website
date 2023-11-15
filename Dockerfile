@@ -1,23 +1,5 @@
-# Use an official Node.js runtime as a parent image
-FROM node:latest AS builder
-
-# Copy the build files into the project
-COPY . /app
-
-# Set the working directory in the container
-WORKDIR /app/Lens
-
-# Install project dependencies using npm
-RUN npm install
-
-# Build the project
-RUN npm run build
-
 # Create a new stage for the nginx image
 FROM nginx:latest
-
-# Copy the built files from the previous stage into the nginx HTML folder
-COPY --from=builder /app/Lens/dist /usr/share/nginx/html/Lens
 
 # Copy the built files from the previous stage into the nginx HTML folder
 COPY ./content /usr/share/nginx/html

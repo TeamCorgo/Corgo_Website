@@ -95,5 +95,26 @@
             <img src="https://avatar.corgo.org/7.x/rings/svg?seed=Corgo" alt="Corgo Avatar" />
         </div>
     </div>
+    <br>
+    <div class="flex items-center justify-center" id="avatarContainer" style="display: none;">
+        <div class="card shadow-xl items-center justify-center white-bg">
+            <!-- Health Check avatar server -->
+            <h2 class="card-title">Avatar Check</h2>
+            <img src="https://avatar.corgo.org/7.x/rings/svg?seed=Corgo" alt="Corgo Avatar" id="avatarImage" />
+        </div>
+    </div>
+    <script>
+        // URL to check
+        var imageUrl = "https://avatar.corgo.org/7.x/rings/svg?seed=Corgo";
+
+        // Create an image element to check the URL
+        var img = new Image();
+        img.onload = function () {
+            // Show the content if the URL is available
+            document.getElementById("avatarContainer").style.display = "block";
+        };
+        img.src = imageUrl;
+    </script>
+
 </body>
 </html>

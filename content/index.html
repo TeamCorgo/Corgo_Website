@@ -103,7 +103,7 @@
         var img = new Image();
         img.onload = function () {
             // Show the content if the URL is available
-            document.getElementById("avatarContainer").style.display = "block";
+            document.getElementById("avatarContainer").removeAttribute('style');
         };
         img.src = imageUrl;
     </script>

@@ -4,6 +4,9 @@ FROM nginx:latest
 # Copy the built files from the previous stage into the nginx HTML folder
 COPY ./content /usr/share/nginx/html
 
+# Copy nginx config files (Override)
+COPY ./config /etc/nginx
+
 # Start the nginx web server
 CMD ["nginx", "-g", "daemon off;"]
 

@@ -8,10 +8,10 @@ COPY ./content /usr/share/nginx/html
 COPY ./config /etc/nginx
 
 # Create a directory for logs
-RUN mkdir /var/log/nginx
+RUN mkdir /etc/nginx/logs
 
 # Define a named volume for logs
-VOLUME /var/log/nginx
+VOLUME /etc/nginx/logs
 
 # Start the nginx web server
 CMD ["nginx", "-g", "daemon off;"]

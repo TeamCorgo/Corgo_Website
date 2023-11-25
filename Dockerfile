@@ -7,6 +7,12 @@ COPY ./content /usr/share/nginx/html
 # Copy nginx config files (Override)
 COPY ./config /etc/nginx
 
+# Create a directory for logs
+RUN mkdir /var/log/nginx
+
+# Define a named volume for logs
+VOLUME /var/log/nginx
+
 # Start the nginx web server
 CMD ["nginx", "-g", "daemon off;"]
 

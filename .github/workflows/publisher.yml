@@ -56,11 +56,11 @@ jobs:
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 
-      - name: Clone (CS-Help/webpage) repository subfolder into Code/cs-help
+      - name: Clone Museum repository subfolder into Code/cs-help
         run: |
           git clone --depth=1 https://github.com/TeamCorgo/The-CyberStorm-Museum.git /tmp/help
           mkdir -p Code/cs-help
-          cp -r /tmp/help/modern/html/* Code/cs-help/
+          cp -r /tmp/help/modern/help/* Code/cs-help/
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 

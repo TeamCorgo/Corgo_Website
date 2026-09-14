@@ -58,9 +58,9 @@ jobs:
 
       - name: Clone Museum repository subfolder into Code/cs-help
         run: |
-          git clone --depth=1 https://github.com/TeamCorgo/The-CyberStorm-Museum.git /tmp/help
+          git clone --depth=1 https://github.com/TeamCorgo/The-CyberStorm-Museum.git /tmp/Museum
           mkdir -p Code/cs-help
-          cp -r /tmp/help/modern/help/* Code/cs-help/
+          cp -r /tmp/Museum/modern/help/* Code/cs-help/
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 

@@ -62,7 +62,7 @@ jobs:
           mkdir -p Code/cs-help
           mkdir -p Code/cs-tools
           cp -r /tmp/Museum/modern/help/* Code/cs-help/
-          cp -r /tmp/Museum/tools/* Code/cs-tools/
+          cp -r /tmp/Museum/tools/*.html Code/cs-tools/
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 

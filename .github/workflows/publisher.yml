@@ -61,7 +61,7 @@ jobs:
           git clone --depth=1 https://github.com/TeamCorgo/The-CyberStorm-Museum.git /tmp/Museum
           mkdir -p Code/cs-help
           cp -r /tmp/Museum/modern/help/* Code/cs-help/
-          cp /tmp/Museum/tools/rbx/rbx_converter.html Code/cs-tools/rbx_converter.html
+          cp -r /tmp/Museum/tools/* Code/cs-tools/
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 

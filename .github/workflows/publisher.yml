@@ -62,6 +62,7 @@ jobs:
           mkdir -p Code/cs-help
           cp -r /tmp/Museum/modern/help/* Code/cs-help/
           find /tmp/Museum/tools -type f -name '*.html' -exec cp --parents {} Code/cs-tools/ \;
+          for f in *\ *; do mv -- "$f" "${f// /_}"; done
         env:
           GIT_TERMINAL_PROMPT: 0  # Prevents prompts for authentication
 
